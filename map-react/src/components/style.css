@@ -2,6 +2,12 @@
     height: 100%;
 } */
 
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+}
+
 .map-only {
     grid-column: 1 / 4;
     height: 93vh;
@@ -154,7 +160,10 @@
     background-color: rgb(10, 70, 10);
     text-align: right;
     margin: 0;
-    
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .navigation {
@@ -168,10 +177,110 @@
     font-size: 18px;
     border: none;
     background: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    padding: 0 20px 0 20px;
+    border-right: 1px solid black ;
+    /* border-left: 1px solid black ; */
 }
 
 header {
     margin-top: 100px;
+}
+
+
+.user-container {
+    
+    position: relative;
+    width: 100vw;
+    height: 93vh;
+
+
+    background-image: url("login_image.jpg");
+    
+}
+
+.user-panel {
+    position: relative;
+    width: 50vw;
+    height: 93vh;
+    background-color: rgba(0, 0, 0, 0.63);
+    z-index: 10000;
+    float: right;
+
+}
+
+.user-credentials {
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    
+    /* border-radius: 2em; */
+    /* background-color: rgba(0, 128, 0, 0.808); */
+    background-color: rgba(0, 0, 0, 0.63);
+    display: flex;
+    justify-content: space-between;
+    color: white;
+
+}
+
+.user-login, .user-register{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 0px 30px 50px 30px;
+}
+
+.user-login form, .user-register form {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    font-weight: 400;
+}
+
+.user-login input, .user-register input {
+    width: 17em;
+    margin-bottom: 20px;
+}
+
+.spliter {
+    z-index: 10000;
+    width: 3px;
+    /* height: 430px; */
+    background-color: rgb(255, 255, 255);
+    margin: 40px 0 40px 0;
+    /* border-radius: 2em; */
+
+}
+
+.user-login p, .user-register p {
+    text-align: center;
+    font-weight: 400;
+    font-size: 22px;
+    padding-bottom: 30px;
+}
+
+
+.user-login button, .user-register button {
+    width: 10em;
+    background-color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    padding: 5px;
+    margin-top: 40px;
+    border: none;
+}
+
+
+.user-login button:hover, .user-register button:hover {
+    background-color: rgba(255, 255, 255, 0.212);;
+    cursor: pointer;
+}
+
+.user-login .button-login, .user-register .button-register {
+    text-align: center;
 }
 
 

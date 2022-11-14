@@ -1,6 +1,7 @@
 import React from "react";
 import Map from "./map";
 import "./style.css";
+import User from "./user";
 
 function InputPage(props) {
 
@@ -44,7 +45,12 @@ function InputPage(props) {
                     </div>
                 )
             case "user":
-                return <h1>USER</h1>;
+                // return <h1>USER</h1>;
+                return (
+                    <div className="user-container">
+                        <User />
+                    </div>
+                )
         }
     }
 
