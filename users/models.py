@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+import jwt
+import datetime
+
 
 
 class User(AbstractUser):
@@ -22,4 +25,21 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+    @property
+    def token(self):
+        return self._generate_jwt_token()
 
+
+    def _generate_jwt_token(self):
+        exp = datetime.datetime.now() + datetime.timedelta(days=60)
+        iat = datetime.datetime.now()
+
+        payload = {
+            'id': self.id,
+            'exp': exp,
+            'iat': iat
+        }
+
+        token = jwt.encode(payload, "SECRET_KEY", algorithm='HS256')
+
+        return token

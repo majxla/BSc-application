@@ -5,14 +5,14 @@ import User from "./user";
 
 function InputPage(props) {
 
-    const RenderTitle = () => {
-        switch (props.code) {
-            case "map":
-                return <h1>MAP</h1>;
-            case "user":
-                return <h1>USER</h1>;
-        }
-    }
+    // const RenderTitle = () => {
+    //     switch (props.code) {
+    //         case "map":
+    //             return <h1>MAP</h1>;
+    //         case "user":
+    //             return <h1>USER</h1>;
+    //     }
+    // }
 
     const RenderContent = () => {
 
@@ -48,7 +48,7 @@ function InputPage(props) {
                 // return <h1>USER</h1>;
                 return (
                     <div className="user-container">
-                        <User />
+                        <User/>
                     </div>
                 )
         }
@@ -61,9 +61,9 @@ function InputPage(props) {
                 <RenderContent />
             </div>
 
-            <div>
+            {/* <div>
                 <RenderTitle />
-            </div>
+            </div> */}
         </div>
     )
 }

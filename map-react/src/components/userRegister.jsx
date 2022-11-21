@@ -17,7 +17,9 @@ const UserRegister = (props) => {
                 <label>Hasło:</label>
                 <input type="password"></input>
 
+                <div className='button-register'><button>Zarejestruj się</button></div>
             </form>
+            {/* <div className='button-register'><button>Zarejestruj się</button></div> */}
         </div>
     )
 }

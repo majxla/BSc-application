@@ -5,6 +5,10 @@ import "./App.css";
 
 function App() {
 
+  const token = localStorage.getItem('accessToken');
+
+
+
   const nav = {
     target: 'map'
   }
@@ -19,7 +23,7 @@ function App() {
     <div className='App'>
 
       <div className='navigation'>
-        <NavItems handleClick={handleClick} />
+        <NavItems handleClick={handleClick}/>
       </div>
 
       <div>

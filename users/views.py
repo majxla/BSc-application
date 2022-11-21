@@ -62,6 +62,8 @@ class LoginView(APIView):
 
         # AUTHENTICATION PART
 
+        print(request.data)
+
         email = request.data['email']
         password = request.data['password']
 
@@ -77,10 +79,16 @@ class LoginView(APIView):
         login(request, user)
 
         return Response({
-            'message': "success",
+            'message': 'success',
+            'user': {
+                'id': user.id, 
+                'username': user.username, 
+                'email': user.email
+                },
+            'id': user.id,
             'username': user.username,
             'email': user.email,
-            'password': user.password
+            'jwt': user.token
         })
 
         
