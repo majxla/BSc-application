@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavButton from "./navButton";
+import { Link } from 'react-router-dom';
+
+
+//FIRST VERION - DELAY
 
 function NavItems(props) {
 
@@ -23,4 +27,35 @@ function NavItems(props) {
     )
 }
 
-export default NavItems;
+
+//SECOND VERSION - ACCEPTED
+
+const NavBar = (props) => {
+
+    if (props.isLoggedIn) {
+        const user = localStorage.getItem('user');
+        return (
+
+            <nav className="navWrapper">
+                <Link to="/" className="navButton"> Mapa </Link>
+                <Link to="/user" className="navButton"> {JSON.parse(user)['username']} </Link>
+            </nav>
+
+        )   
+    } else {
+
+        return (
+
+            <nav className="navWrapper">
+                <Link to="/" className="navButton"> Mapa </Link>
+                <Link to="/user" className="navButton"> Moje konto </Link>
+            </nav>
+
+        )
+
+    }
+
+}
+
+// export default NavItems;
+export default NavBar;

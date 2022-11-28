@@ -1,27 +1,33 @@
-import React, {useEffect} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import Axios from 'axios';
 import "./style.css";
-import Profile from './profile';
 
 
 const UserLogin = (props) => {
 
 
-    const userRef = React.useRef();
-    const errRef = React.useRef();
+    const userRef = useRef();
 
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [errMsg, setErrMsg] = React.useState("");
-    const [success, setSuccess] = React.useState(true);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [success, setSuccess] = useState(false);
 
-    // React.useEffect(() => {
-    //     userRef.current.focus();
-    // }, [])
+    // const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-    // React.useEffect(() => {
-    //     setErrMsg('');
-    // }, [user, pwd])
+    // useEffect(() => {
+    //     const token = localStorage.getItem('accessToken');
+    //     if (!!token) {
+    //       setIsLoggedIn(true)
+    //     } else {
+    //       setIsLoggedIn(false)
+    //     }
+    //   }, []);
+
+    useEffect(() => {
+        if (success) {
+            props.login()
+        }
+      }, [success])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -45,18 +51,19 @@ const UserLogin = (props) => {
 
             setEmail("");
             setPassword("");
+
             setSuccess(true);
 
         } catch (err) {
             
             if (!err.response) {
-                setErrMsg('Brak odpowiedzi.');
+                console.log('Brak odpowiedzi.');
             } else if (err.response?.status === 400) {
-                setErrMsg('Brak username albo password.');
+                console.log('Brak username albo password.');
             } else if (err.response?.status === 401) {
-                setErrMsg('Brak autoryzacji.');
+                console.log('Brak autoryzacji.');
             } else {
-                setErrMsg('Dupa.');
+                console.log('Dupa.');
             }
 
         }
@@ -66,16 +73,6 @@ const UserLogin = (props) => {
     return (
 
         <div>
-
-            {
-            !!localStorage.getItem('accessToken') 
-            // success
-            ? (
-                <section>
-                    <h1>Zalogowano</h1>
-                </section>
-            ) : (
-
                 <section>
                     <form onSubmit={handleSubmit}>
 
@@ -102,7 +99,7 @@ const UserLogin = (props) => {
                         <div className='button-login'><button>Zaloguj się</button></div>
                     </form>
                 </section>
-                )}
+
         </div>
     )
 }

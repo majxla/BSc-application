@@ -15,8 +15,6 @@ from django.contrib.auth import authenticate, login, logout
 class RegisterView(APIView):
 
     serializer_class = UserSerializer
-    
-    
 
     def post(self, request):
         
@@ -25,7 +23,10 @@ class RegisterView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response(serializer.data)
+        return Response({
+            'message': True,
+            'user_data': serializer.data
+            })
 
 class LoginView(APIView):
 

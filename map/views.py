@@ -25,7 +25,6 @@ class IndexView(APIView):
         return render(request, 'index.html')
 
 
-
 class Coordinates(APIView):
 
 
