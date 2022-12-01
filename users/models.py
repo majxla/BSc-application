@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.gis.db.models import MultiLineStringField, PointField
 
 import jwt
 import datetime
@@ -43,3 +44,16 @@ class User(AbstractUser):
         token = jwt.encode(payload, "SECRET_KEY", algorithm='HS256')
 
         return token
+
+
+class FavRoute(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    opis = models.CharField(max_length=255)
+    polyline = MultiLineStringField()
+    start_point = PointField()
+    end_point = PointField()
+
+    def __str__(self):
+        return self.name

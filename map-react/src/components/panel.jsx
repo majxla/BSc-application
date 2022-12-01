@@ -1,10 +1,9 @@
 import { LatLng } from 'leaflet';
 import React, {useEffect} from 'react';
-import ChartsScatter from './chartsScatter';
-import ChartsSurface from './chartsSurface';
 
 
 function Panel(props) {
+
     // let fakeCity = "Kowary"
     // let coords = new Object({
     //     lat: 50.794082325385354,
@@ -20,6 +19,8 @@ function Panel(props) {
 
     const [getCoords, setCoords] = React.useState(coords1);
 
+    const [btnDisabled, setBtnDisabled] = React.useState(true);
+
 
     const startChangeHandler = (e) => {
         props.startChangeHandler(e.target.value);
@@ -30,17 +31,18 @@ function Panel(props) {
     }
 
     useEffect(() => {
-      if (getCoords.start_effect){
+        if (getCoords.start_effect){
         // console.log(`start effect: ${getCoords.start}`)
-        props.startSetMarker(getCoords.start);
-      }
+            props.startSetMarker(getCoords.start);
+        }
 
     }, [getCoords.start])
 
     useEffect(() => {
         // console.log(`end effect: ${getCoords.start}`)
         if (getCoords.end_effect){
-          props.endSetMarker(getCoords.end);
+            props.endSetMarker(getCoords.end);
+            
         }
   
     }, [getCoords.end])
@@ -97,7 +99,7 @@ function Panel(props) {
     const findButtonHandler = (val) => {
 
         findAPlace(val);
-        // props.startSetMarker(getCoords.start);
+        
     } 
 
 
@@ -114,24 +116,22 @@ function Panel(props) {
                 <input type="text" value={props.values.end} onChange={endChangeHandler}></input>
                 <button onClick={event => findButtonHandler(1)}>Znajdź</button>
             </div>
-{/* 
-            {props.plotData.show ? 
-            <ChartsScatter altitude={props.plotData.altitude}
-                        xaxis={props.plotData.xaxis}/>
-            : null}
 
-            {props.plotData.show ? 
-                <ChartsSurface data={props.plotData}></ChartsSurface>
-            : null} */}
+            {/* {props.user ? 
+                <div className='btn-fav-containter'>
+                    <button className="btn-fav" type='button' disabled={props.btnDisabled ? true : false}>Dodaj trasę do ulubionych</button>
+                </div>
+            :
+            null} */}
 
-            {/* <ChartsScatter altitude={props.plotData.altitude}
-                        xaxis={props.plotData.xaxis}/>
-            
-            <ChartsSurface data={props.plotData}></ChartsSurface> */}
-
-            {/* <ChartsScatter></ChartsScatter> */}
-
-
+                <div className='btn-fav-containter'>
+                    <button 
+                        className="btn-fav" 
+                        type='button' 
+                        disabled={props.btnDisabled ? true : false}
+                        onClick={props.btnHandler}>Dodaj trasę do ulubionych</button>
+                </div>
+                
             
 
 

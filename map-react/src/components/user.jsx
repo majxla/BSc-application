@@ -10,7 +10,7 @@ import Profile from './profile';
 const User = (props) => {
 
 
-    const [authenticated, setAuthenticated] = React.useState(false);
+    const [authenticated, setAuthenticated] = React.useState(true);
 
     useEffect(() => {
         const loggedUser = localStorage.getItem('accessToken');

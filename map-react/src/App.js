@@ -67,7 +67,7 @@ function App() {
 
       <Routes>
 
-          <Route exact path="/" element={<Map/>}></Route>
+          <Route exact path="/" element={<Map user={isLoggedIn}/>}></Route>
           <Route exact path="/user" element={<User login={logIn.bind(this)}/>}></Route>
           <Route exact path="/profile" element={
             <Protected isLoggedIn={isLoggedIn}>

@@ -9,6 +9,11 @@ body {
     background-color: black;
 }
 
+button {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+}
+
 .map-only {
     grid-column: 1 / 4;
     height: 93vh;
@@ -296,4 +301,151 @@ header {
     display: flex;
     flex-direction: column;
     
+}
+
+.fav-popup {
+    width: 80vw;
+    height: 70vh;
+    position: absolute;
+    z-index: 10000;
+    margin-top: 10vh;
+    margin-left: 10vw;
+    display: flex;
+    justify-content: space-between;
+
+    background-color: white;
+    border: 5px solid rgb(10, 70, 10);;
+    box-shadow: 0px 0px 24px 0px rgba(66, 68, 90, 1);
+}
+
+
+.fav-close {
+    float: right;
+    border: none;
+    background-color: white;
+    font-size: 28px;
+    margin-right: 5px;
+}
+
+.fav-form {
+    height: 70vh;
+    width: 80vw;
+}
+
+.fav-form form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* margin-top: 5vh; */
+    margin: 10vh 5vh;
+    gap: 50px;
+}
+
+.fav-name, .fav-desc{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-weight: 400;
+}
+
+.fav-form input {
+    font-size: 22px;
+}
+
+.fav-form textarea {
+    height: 200px;
+    font-size: 18px;
+}
+
+.fav-add {
+    width: 200px;
+
+    align-self: center;
+}
+
+.fav-add:hover, .fav-close:hover {
+    cursor: pointer;
+}
+
+
+.profile-routes {
+    background-color: rgb(255, 255, 255);
+    padding: 30px 0;
+    margin: 0 50px;
+    /* height: 100%; */
+    
+}
+
+
+.profile-fav-route {
+    background-color: white;
+    margin: 30px 150px;
+    margin-top: 60px;
+    box-shadow: 0px 0px 24px 0px rgb(192, 192, 192);
+    
+}
+
+
+.profile-fav-route button{
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    border-radius: 0;
+    border: 1px solid green;
+    cursor: pointer;
+    background-color: rgb(235, 252, 231);
+    padding: 5px 50px;
+}
+
+.fav-title-line {
+    background-color: black;
+    width: 100%;
+    height: 0px;
+    
+}
+
+.fav-route-title {
+    margin-bottom: -10px;
+    font-size: 22px;
+}
+
+.fav-route-desc {
+    margin-top: 40px;
+}
+
+.fav-route-desc-span {
+    font-size: 14px;
+
+}
+
+
+.profile {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    
+
+}
+
+.profile:target {
+    display: block;
+}
+
+
+
+.fav-route-popup {
+    position: fixed;
+    /* z-index: 10000; */
+    background-color: white;
+    width: 90vw;
+    height: 80vh;
+    margin: 0 auto;
+    top: 10vh;
+    left: 5vw;
+    color: black;
+    border: 1px solid black;
+    box-shadow: 0px 0px 24px 0px rgb(124, 124, 124);
+
+
 }

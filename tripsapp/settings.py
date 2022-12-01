@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,7 +89,8 @@ REACT_ROUTES = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        # 'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'TripsDB',
         'USER': 'postgres',
         'PASSWORD': 'postgrespassword',
@@ -158,6 +160,22 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     )
 }
+
+
+
+# VIRTUAL_ENV_BASE = os.environ['VIRTUAL_ENV']
+# print(os.environ)
+# GDAL_LIBRARY_PATH = VIRTUAL_ENV_BASE + "/Lib/site-packages/osgeo/gdal304"
+
+GDAL_LIBRARY_PATH = """D:\\geoinformatyka\\SEMESTRVI\\seminarium_inzynierskie\\aplikacja\\env\\Lib\\site-packages\\osgeo\\gdal304"""
+
+GEOS_LIBRARY_PATH = """D:\\geoinformatyka\\SEMESTRVI\\seminarium_inzynierskie\\aplikacja\\env\\Lib\\site-packages\\osgeo\\geos_c"""
+
+# if os.name == 'nt':
+#     VENV_BASE = os.environ['VIRTUAL_ENV']
+#     os.environ['PATH'] = os.path.join(VENV_BASE, '/Lib/site-packages/osgeo/' + ";" + os.environ['PATH'])
+#     os.environ['PROJ_LIB'] = os.path.join(VENV_BASE, '/Lib/site-packages/osgeo/data/proj') + ';' + os.environ['PATH']
+#     os.environ['GDAL_DATA'] = os.path.join(VENV_BASE, '/Lib/site-packages/osgeo/data/gdal') + ';' + os.environ['PATH']
 
 
 CORS_ORIGIN_ALLOW_ALL = True

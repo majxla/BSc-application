@@ -83,6 +83,7 @@ class Coordinates(APIView):
 
 
             #data = {"success": "success python part"}
+            print(path)
             return Response(path)
 
         return Response('None')

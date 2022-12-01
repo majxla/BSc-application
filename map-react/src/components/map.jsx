@@ -5,6 +5,7 @@ import "./style.css";
 import MyPopup from './myPopup';
 import Panel from './panel'
 import ChartsPanel from './chartsPanel';
+import FavPopup from './FavPopup';
 
 
 
@@ -66,6 +67,8 @@ const Map = (props) => {
         showPath: false,
         polyline: null,
     }
+
+    const [btnDisabled, setBtnDisabled] = React.useState(true);
 
     const mapStyle = {
         gridTemplateRows: '2fr',
@@ -205,6 +208,8 @@ const Map = (props) => {
                 display: true,
             }))
 
+            setBtnDisabled(false);
+
         })
         .catch(error => console.log(error))
     }
@@ -338,6 +343,20 @@ const Map = (props) => {
         })
     }
 
+    // const [favPopup, setFavPopup] = React.useState(false);
+    const [favPopup, setFavPopup] = React.useState(false);
+
+
+    const favBtnOpen = () => {
+        setFavPopup(true);
+    }
+
+    const favBtnClose = () => {
+        setFavPopup(false);
+    }
+
+
+
     return (
         <div className="map-view" style={getMapStyle} onClick={onMouseClick.bind(this)}>
 
@@ -388,13 +407,25 @@ const Map = (props) => {
                 startSetMarker={SetMarkerStartPanel.bind(this)}
                 endSetMarker={SetMarkerEndPanel.bind(this)}
                 plotData={getPlot}
+                user={props.user}
+                btnDisabled={btnDisabled}
+                btnHandler={favBtnOpen.bind(this)}
                 /> 
 
         {getPlot.show ? 
         <ChartsPanel style={getPanelStyle} plotData={getPlot}></ChartsPanel>
         : null}
 
+        {favPopup ? 
+        <FavPopup 
+            close={favBtnClose.bind(this)} 
+            polyline={getPath.polyline} 
+            startPoint={getMarker.marker_start}
+            endPoint={getMarker.marker_end}/>
+        : null}
+
         </div>
+
 
 
     )

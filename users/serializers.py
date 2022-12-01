@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, FavRoute
 
 
 
@@ -22,3 +22,13 @@ class UserSerializer(serializers.ModelSerializer):
         
         instance.save()
         return instance
+
+class FavRouteSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = FavRoute
+        fields = '__all__'
+    
+
+
+
