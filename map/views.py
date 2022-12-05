@@ -61,7 +61,7 @@ class Coordinates(APIView):
             print(start_coords, end_coords)
             url = "https://routing.openstreetmap.de/routed-foot/route/v1/driving/" + start_coords[1] + "," + start_coords[0] + ";" + end_coords[1] + "," + end_coords[0] +"?overview=false&geometries=geojson&steps=true"
 
-            print(url)
+            #print(url)
         
         
             # response = requests.get('''https://routing.openstreetmap.de/routed-foot/route/v1/driving/15.7557,50.7748;15.7273,50.7476?overview=false&geometries=polyline&steps=true''')
@@ -69,8 +69,17 @@ class Coordinates(APIView):
             # response = requests.get('''https://routing.openstreetmap.de/routed-foot/route/v1/driving/15.7557,50.7748;15.7273,50.7476?overview=false&geometries=geojson&steps=true''')
             response = requests.get(url)
             response = response.json()
+            
 
             route = response['routes'][0]['legs'][0]['steps']
+
+            duration = response['routes'][0]['duration']/60
+            duration = "%.2f" % duration
+            distance = response['routes'][0]['distance']/1000
+            distance = "%.2f" % distance
+
+            # print("---------------",duration)
+            # print("---------------",distance)
 
             path = self.list_of_coords(route)
             
@@ -83,8 +92,17 @@ class Coordinates(APIView):
 
 
             #data = {"success": "success python part"}
-            print(path)
-            return Response(path)
+            #print(path)
+
+            data = {
+                "path": path,
+                "duration": duration,
+                "distance": distance
+            }
+
+
+            # return Response(path)
+            return Response(data=data)
 
         return Response('None')
 
@@ -159,8 +177,6 @@ class Raster(APIView):
 
         # Get altitude
         ds = gdal.Open(self.file_name, gdal.GA_ReadOnly)
-        #proj = ds.GetProjection()
-        #print("-------proj:", proj)
 
         gt = ds.GetGeoTransform()
         inv_gt = gdal.InvGeoTransform(gt)
@@ -177,28 +193,20 @@ class Raster(APIView):
             lon = coords[x][1]
             col, row = gdal.ApplyGeoTransform(inv_gt, lon, lat)
 
-            # print(col)
-            # print(row)
             col = int(col)
             row = int(row)
 
             row_list.append(row)
             col_list.append(col)
 
-            # print(col)
-            # print(row)
-
             altitude.append(band_data[row][col])
 
         ds = None
 
         os.remove(self.file_name)
-        
-        #print(altitude)
 
         # Calculate xaxis
         xs = self.calculate_xaxis(coords)
-        # print(xs)
 
         data = {
             'altitude': altitude,

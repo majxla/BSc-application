@@ -21,16 +21,18 @@ const FavPopup = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(userID);
-        console.log(capture);
-        console.log(description);
-        console.log(props.polyline);
-        console.log(props.startPoint);
-        console.log(props.endPoint);
+        // console.log(userID);
+        // console.log(capture);
+        // console.log(description);
+        // console.log(props.polyline);
+        // console.log(props.startPoint);
+        // console.log(props.endPoint);
+        // console.log(props.altitude);
+        // console.log(props.xaxis);
+        // console.log(props.surface);
 
         try {
             
-            // const response = await Axios.post(`api/routes/${userID}/`,
             const response = await Axios.post(`api/routes`,
             JSON.stringify({
                 'user': userID, 
@@ -38,7 +40,13 @@ const FavPopup = (props) => {
                 'opis': description, 
                 'polyline': props.polyline, 
                 'start_point': props.startPoint,
-                'end_point': props.endPoint}),
+                'end_point': props.endPoint,
+                'altitude': props.altitude,
+                'xaxis': props.xaxis,
+                'surface': props.surface,
+                'rows': props.rows,
+                'cols': props.cols
+            }),
 
                 {
                     headers: {'Content-Type': 'application/json'},

@@ -12,8 +12,6 @@ function ChartsScatter (props) {
             <Plot
                 data = {[
                     {type: 'scatter',
-                    // x: xArray,
-                    // y: yArray,
                     x: props.data.xaxis, 
                     y: props.data.altitude,
                     mode: 'lines',
@@ -206,51 +204,5 @@ let yArray = [632.6304, 627.3764, 619.59, 619.8376, 619.6296, 619.6296, 619.8476
         7.484183663404692, 7.485806088117212, 7.488425938683154, 7.495666535278629, 7.508561070265275, 7.548453114632396, 7.557748972386837, 
         7.565081730722816, 7.568755121686862]
 
-        // function ChartsPanel (props) {
-
-        //     return (
-        //         <div className='charts'>
-        
-        //             <Plot
-        //                 data = {[
-        //                     {type: 'scatter3d',
-        //                     mode: 'lines',
-        //                     x: xArray,
-        //                     y: xArray,
-        //                     z: yArray,
-        //                     contours: {
-        //                         z: {
-        //                             show: true,
-        //                             usecolormap: true,
-        //                             highlightcolor:"#42f462",
-        //                             project:{z: true}
-        //                         }
-        //                     }
-        //                     // mode: 'lines',
-        //                     // line: {
-        //                     //     color: 'rgb(219, 64, 82)'}
-        //                 }
-        //                 ]}
-        //                 layout = {{
-        //                     width: 500, 
-        //                     height: 300, 
-        //                     title: 'Height plot',
-        //                     titlefont: {
-        //                         color: 'white'
-        //                     },
-        //                     plot_bgcolor:"#474747",
-        //                     paper_bgcolor: "#1a1a1a",
-        //                     margin: {
-        //                         l: 50,
-        //                         r: 50,
-        //                         b: 50, 
-        //                         t: 50
-        //                     }
-        //                     }}
-        //             />
-        
-        //         </div>
-        //     )
-        // }
         
 export default ChartsScatter;

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, Polyline} from 'react-leaflet';
 import Axios from 'axios';
 import "./style.css";
@@ -107,6 +107,7 @@ const Map = (props) => {
                 ...prevState,
                 gridTemplateRows: '2fr 1.5fr',
             }))
+            setBtnDisabled(false);
         }
     }, [getPlot.altitude, getPlot.xaxis])
 
@@ -183,6 +184,13 @@ const Map = (props) => {
             end: value,
         }))
     }
+
+    const pathDetails = {
+        duration: "---",
+        distance: "---",
+    }
+
+    const [getPathDetails, setPathDetails] = React.useState(pathDetails);
     
 
     const postCoords = (params) => {
@@ -201,14 +209,22 @@ const Map = (props) => {
             // console.log(res);
             // console.log(res.data)
             // console.log(typeof(res.data))
+            // console.log(res.data.path)
 
             setPath((prevState) => ({
                 ...prevState,
-                polyline: res.data,
+                polyline: res.data.path,
                 display: true,
             }))
 
-            setBtnDisabled(false);
+            setPathDetails((prevState) => ({
+                ...prevState,
+                duration: res.data.duration,
+                distance: res.data.distance
+
+            }))
+
+            // setBtnDisabled(false);
 
         })
         .catch(error => console.log(error))
@@ -410,6 +426,8 @@ const Map = (props) => {
                 user={props.user}
                 btnDisabled={btnDisabled}
                 btnHandler={favBtnOpen.bind(this)}
+                duration={getPathDetails.duration}
+                distance={getPathDetails.distance}
                 /> 
 
         {getPlot.show ? 
@@ -421,7 +439,12 @@ const Map = (props) => {
             close={favBtnClose.bind(this)} 
             polyline={getPath.polyline} 
             startPoint={getMarker.marker_start}
-            endPoint={getMarker.marker_end}/>
+            endPoint={getMarker.marker_end}
+            altitude={getPlot.altitude}
+            xaxis={getPlot.xaxis}
+            surface={getPlot.surface}
+            rows={getPlot.rows}
+            cols={getPlot.cols}/>
         : null}
 
         </div>

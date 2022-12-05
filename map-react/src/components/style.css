@@ -11,7 +11,7 @@ body {
 
 button {
     font-family: 'Poppins', sans-serif;
-    font-size: 18px;
+    /* font-size: 18px; */
 }
 
 .map-only {
@@ -39,11 +39,59 @@ button {
     background-color: rgb(255, 255, 255);
     /* border-radius: 0 10px 10px 0; */
     /* box-shadow: 0px 0px 94px -53px rgba(75, 75, 75, 1); */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* grid-template-columns: ; */
+
 }
+
+.panel-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.path-details {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+
+    align-items: center;
+    margin-left: 30px;
+    margin-right: -20px;
+}
+
+.label-label {
+    font-size: 12px;
+}
+
+.label-value {
+    align-self: center;
+}
+
+.path-details-line {
+    width: 80%;
+    color: rgb(219, 219, 219);
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
 
 .panel-start {
     margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+.panel-end {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* .panel-start, .panel-end {
+    margin: 50px auto;
+} */
 
 .panel input{
     display: inline-block;
@@ -63,8 +111,8 @@ button {
 .panel button, .popup-inner .close-popup {
     padding: 4px 10px;
     background-color: rgb(242, 250, 240);
-    border-radius: 6px;
     border: 1px solid green;
+    border-radius: 6px;
     transition-duration: 0.4s;
     position: relative;
     text-decoration: none;
@@ -447,5 +495,68 @@ header {
     border: 1px solid black;
     box-shadow: 0px 0px 24px 0px rgb(124, 124, 124);
 
+    display: grid;
+    grid-template-rows: .5fr 10fr;
+
 
 }
+
+.map-popup-close{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 1px;
+    margin-right: 5px;
+}
+
+.map-popup-close button {
+    border: none;
+    background-color: white;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.map-popup {
+    /* height: 100%;
+    width: 100%; */
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+
+    margin: 0 5px 5px 5px;
+}
+
+.fav-popup-map {
+    /* background-color: green; */
+    grid-row-start: 1;
+    grid-row-end: span 2;
+}
+
+.fav-popup-plot1 {
+    background-color: red;
+}
+
+.fav-popup-plot2 {
+    background-color: pink;
+}
+
+.fav-map-container {
+    height: 100%;
+    width: 100%;
+}
+
+.logout-button-div {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
+
+.logout-button {
+    width: 150px;
+    padding: 10px 0;
+    background-color: rgb(242, 250, 240);
+    border: 1px solid green;
+    cursor: pointer;
+}
+
+

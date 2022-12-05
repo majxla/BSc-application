@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.gis.db.models import MultiLineStringField, PointField
+from django.contrib.postgres.fields import ArrayField
 
 import jwt
 import datetime
@@ -54,6 +55,11 @@ class FavRoute(models.Model):
     polyline = MultiLineStringField()
     start_point = PointField()
     end_point = PointField()
+    altitude = ArrayField(models.IntegerField(), default=list)
+    xaxis = ArrayField(models.FloatField(), default=list)
+    surface = ArrayField(ArrayField(models.IntegerField()), default=list)
+    rows = ArrayField(models.IntegerField(), default=list)
+    cols = ArrayField(models.IntegerField(), default=list)
 
     def __str__(self):
         return self.name

@@ -25,6 +25,9 @@ const User = (props) => {
     }
 
     const logOut = () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('user');
+
         setAuthenticated(false)
     }
 

@@ -11,6 +11,11 @@ from django.contrib.gis.geos import GEOSGeometry, Point, MultiLineString, LineSt
 import json
 from django.http import HttpResponse
 
+import shapely.geometry
+import shapely.wkt
+
+
+
 
 #########
 from django.contrib.auth import authenticate, login, logout
@@ -83,12 +88,64 @@ class LogoutView(APIView):
 class FavRouteView(APIView):
 
     serializer_class = FavRouteSerializer
+
+
+    def multilinestring_to_polyline(self, multilinestring):
+
+        
+
+        poly = shapely.wkt.loads(multilinestring)
+
+        poly_result = []
+
+        for linestring in poly.geoms:
+            linestring_list = []
+
+            for point in list(linestring.coords):
+                linestring_list.append([point[1], point[0]])
+            
+            poly_result.append(linestring_list)
+        
+        return poly_result
+    
+    def point_to_reactpoint(self, point):
+
+        # SRID=4326;POINT (15.753364562988283 50.77369548509731)
+        #'{"lat":50.77422170102437,"lng":15.754909515380861}'
+
+        p = shapely.wkt.loads(point)
+        # p_output = {"lat": p.coords[0][1], "lng": p.coords[0][0]}
+        p_output = [p.coords[0][1], p.coords[0][0]]
+
+        return p_output
     
 
     def get(self, request, id):
 
         routes = self.serializer_class(FavRoute.objects.filter(user=id), many=True).data
         response_data = {"routes":routes}
+        #print(response_data)
+
+        for x in response_data['routes']:
+            print("----------------------")
+            # print(x['start_point'])
+            # print(x['polyline'])
+
+            # wkt = str(x['polyline'])
+            polyline_wkt = x['polyline'].lstrip("SRID=4326;")
+            spoint_wkt = x['start_point'].lstrip("SRID=4326;")
+            epoint_wkt = x['end_point'].lstrip("SRID=4326;")
+
+            # print(wkt)
+            x['polyline'] = self.multilinestring_to_polyline(polyline_wkt)
+            x['start_point'] = self.point_to_reactpoint(spoint_wkt)
+            x['end_point'] = self.point_to_reactpoint(epoint_wkt)
+
+            # print(x['polyline'])
+            print(x['start_point'])
+            print(x['end_point'])
+        
+        print(response_data)
 
         return HttpResponse(json.dumps(response_data),
                             content_type="application/json")
@@ -124,7 +181,7 @@ class FavRouteView(APIView):
 
     def post(self, request):
 
-        # print(request.data)
+        print(request.data)
 
         user = request.data['user']
         name = request.data['name']
@@ -142,6 +199,16 @@ class FavRouteView(APIView):
         # print(sp)
         # print(ep)
 
+        altitude = request.data['altitude']
+        xaxis = request.data['xaxis']
+        surface = request.data['surface']
+        rows = request.data['rows']
+        cols = request.data['cols']
+
+        # print(altitude)
+        # print(xaxis)
+        # print(surface)
+
         data = {
             'user': user,
             'name': name,
@@ -149,6 +216,11 @@ class FavRouteView(APIView):
             'polyline': mls,
             'start_point': sp,
             'end_point': ep,
+            'altitude': altitude,
+            'xaxis': xaxis,
+            'surface': surface,
+            'rows': rows, 
+            'cols': cols, 
         }
 
         serializer = self.serializer_class(data=data)

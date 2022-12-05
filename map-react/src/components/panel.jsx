@@ -22,6 +22,7 @@ function Panel(props) {
     const [btnDisabled, setBtnDisabled] = React.useState(true);
 
 
+
     const startChangeHandler = (e) => {
         props.startChangeHandler(e.target.value);
     }
@@ -123,6 +124,18 @@ function Panel(props) {
                 </div>
             :
             null} */}
+
+            <div className='panel-details'>
+
+                <hr className='path-details-line'></hr>
+
+                <div className='path-details'>
+                    <label className='label-label'>Szacowany czas:</label>
+                    <label className='label-value'>{props.duration} min</label>
+                    <label className='label-label'>Długość trasy:</label>
+                    <label>{props.distance} km</label>
+                </div>
+            </div>
 
                 <div className='btn-fav-containter'>
                     <button 
