@@ -145,7 +145,7 @@ class FavRouteView(APIView):
             print(x['start_point'])
             print(x['end_point'])
         
-        print(response_data)
+        # print(response_data)
 
         return HttpResponse(json.dumps(response_data),
                             content_type="application/json")
@@ -181,7 +181,7 @@ class FavRouteView(APIView):
 
     def post(self, request):
 
-        print(request.data)
+        # print(request.data)
 
         user = request.data['user']
         name = request.data['name']

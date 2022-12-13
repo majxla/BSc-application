@@ -18,8 +18,8 @@ const MyPopup = (props) => {
                 <div className='actions'>
                     {/* <div><a href={props.start}>Ustaw punkt początkowy</a></div>
                     <div><a href=''>Ustaw punkt końowy</a></div> */}
-                    <button onClick={props.start}>Ustaw punkt początkowy</button>
-                    <button onClick={props.end}>Ustaw punkt końcowy</button>
+                    <button onClick={props.start} className="map-popup-button">Ustaw punkt początkowy</button>
+                    <button onClick={props.end} className="map-popup-button">Ustaw punkt końcowy</button>
                 </div>
                 <button className='close-popup' onClick={props.closePopup}>Zamknij</button>
             </div>

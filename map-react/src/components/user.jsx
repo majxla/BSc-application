@@ -4,13 +4,14 @@ import "./style.css";
 import UserLogin from './userLogin';
 import UserRegister from './userRegister';
 import Profile from './profile';
+import axios from 'axios';
 
 
 
 const User = (props) => {
 
 
-    const [authenticated, setAuthenticated] = React.useState(true);
+    const [authenticated, setAuthenticated] = React.useState(false);
 
     useEffect(() => {
         const loggedUser = localStorage.getItem('accessToken');
@@ -18,6 +19,7 @@ const User = (props) => {
             setAuthenticated(true);
         } 
     }, []);
+
 
     const logIn = () => {
         setAuthenticated(true)
@@ -28,11 +30,12 @@ const User = (props) => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('user');
 
-        setAuthenticated(false)
+        window.location.reload(false);
+
     }
 
     if (authenticated) {
-        return <Profile/>
+        return <Profile logout={logOut.bind(this)}/>
     }
 
     return (

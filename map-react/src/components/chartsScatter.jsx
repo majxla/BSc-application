@@ -19,14 +19,20 @@ function ChartsScatter (props) {
                         color: 'rgb(219, 64, 82)'}}
                 ]}
                 layout = {{
-                    width: 500, 
-                    height: 300, 
-                    title: 'Height plot',
+                    autosize: true,
+                    width: "100%", 
+                    height: props.style.height,
+
+                    // width: props.style.width,
+                    // height: props.style.height,
+                    
+                    title: 'Przekrój wysokościowy',
                     titlefont: {
-                        color: 'white'
+                        color: 'black'
                     },
-                    plot_bgcolor:"#474747",
-                    paper_bgcolor: "#1a1a1a",
+                    useResizeHandler: true,
+                    plot_bgcolor:"rgba(138, 138, 138, 0.2)",
+                    paper_bgcolor: "rgba(221, 221, 221, 0.2)",
                     margin: {
                         l: 50,
                         r: 50,
@@ -34,19 +40,32 @@ function ChartsScatter (props) {
                         t: 50
                     },
                     xaxis: {
+                        title: {
+                            text: "km",
+                            font: {
+                                size: 10
+                            }
+                        
+                        },
                         dtick: 0.5,
                         tickfont: {
                             size: 10,
-                            color: 'white'
+                            color: 'black'
                         },
-                        gridcolor: 'rgba(168, 168, 168, 0.2)',
+                        gridcolor: 'rgba(221, 221, 221, 0.2)',
                     },
                     yaxis: {
+                        title: {
+                            text: "m n.p.m.",
+                            font: {
+                                size: 10
+                            }
+                        },
                         tickfont: {
                             size: 10,
-                            color: 'white'
+                            color: 'black'
                         },
-                        gridcolor: 'rgba(168, 168, 168, 0.4)'
+                        gridcolor: 'rgba(221, 221, 221, 0.2)'
                     }
 
                     }}

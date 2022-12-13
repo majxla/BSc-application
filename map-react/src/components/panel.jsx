@@ -106,6 +106,13 @@ function Panel(props) {
 
     return (
         <div className='panel'>
+            
+            {props.error.show ? 
+            <div className='panel-error'>
+                <p>{props.error.text}</p>
+            </div>
+            : null }
+
             <div className='panel-start'>
                 <label>Punkt początkowy: </label>
                 <input type="text" value={props.values.start} onChange={startChangeHandler}></input>
@@ -131,12 +138,17 @@ function Panel(props) {
 
                 <div className='path-details'>
                     <label className='label-label'>Szacowany czas:</label>
-                    <label className='label-value'>{props.duration} min</label>
+                    <label className='label-value-dur'>
+                        <label>{props.durationH} h</label>
+                        <label>{props.durationMin} min</label>
+                    
+                    </label>
                     <label className='label-label'>Długość trasy:</label>
                     <label>{props.distance} km</label>
                 </div>
             </div>
 
+                {props.user ? 
                 <div className='btn-fav-containter'>
                     <button 
                         className="btn-fav" 
@@ -144,6 +156,9 @@ function Panel(props) {
                         disabled={props.btnDisabled ? true : false}
                         onClick={props.btnHandler}>Dodaj trasę do ulubionych</button>
                 </div>
+                :
+                null
+                }
                 
             
 

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, Polyline} from 'react-leaflet';
+import * as L from 'leaflet';
 import Axios from 'axios';
 import "./style.css";
 import MyPopup from './myPopup';
@@ -11,6 +12,43 @@ import FavPopup from './FavPopup';
 
 
 const Map = (props) => {
+
+    function minToHAndMin(totalMin) {
+        const h = Math.floor(totalMin/60);
+        const min = Math.round(totalMin % 60);
+
+        return {h, min}
+    }
+
+    const LeafIcon = L.Icon.extend({
+        options: {}
+    });
+
+    
+
+    const greenIcon = new LeafIcon({
+        iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+
+    });
+
+    const [getGreenIcon, setGreenIcon] = React.useState(greenIcon);
+
+    
+    const blueIcon = new LeafIcon({
+        iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    const [getBlueIcon, setBlueIcon] = React.useState(blueIcon);
 
 
     // popup positioning
@@ -34,6 +72,28 @@ const Map = (props) => {
         }))
 
     }
+
+    const error = {
+        show: false,
+        changeShow: false,
+        text: "",
+    }
+
+    const [getError, setError] = React.useState(error);
+
+    React.useEffect(() => {
+        if (getError.changeShow) {
+
+            setError((prevState) => ({
+                ...prevState,
+                show: true,
+            }))
+        }
+
+        
+
+    }, [getError.text])
+
 
 
     // Showing Popup
@@ -79,6 +139,14 @@ const Map = (props) => {
     const plotPanelStyle = {
         gridRow: '2',
         gridColumn: '1 / 5',
+        display: "flex",
+        flexDirection: "row",
+        // justifyContent: "space-between",
+        margin: "auto auto",
+        marginTop: "20px",
+        marginBottom: "20px",
+        gap: "10vw",
+
     }
 
     const [getPanelStyle, setPanelStyle] = React.useState(plotPanelStyle);
@@ -141,8 +209,23 @@ const Map = (props) => {
                 cols: res.data.col,
                 display: true
             }))
+
+            setError((prevState) => ({
+                ...prevState,
+                show: false, 
+                text: "",
+                changeShow: false,
+            }))
         })
-        .catch(error => console.log(error))
+        .catch((error) => {
+            console.log(error);
+
+            setError((prevState) => ({
+                ...prevState,
+                text: "Nie można wygenerować wykresów.",
+                changeShow: true,
+            }))
+        })
     }
 
     const [getPath, setPath] = React.useState(path);
@@ -186,7 +269,8 @@ const Map = (props) => {
     }
 
     const pathDetails = {
-        duration: "---",
+        durationMin: "---",
+        durationH: "---",
         distance: "---",
     }
 
@@ -211,23 +295,47 @@ const Map = (props) => {
             // console.log(typeof(res.data))
             // console.log(res.data.path)
 
+
+
             setPath((prevState) => ({
                 ...prevState,
                 polyline: res.data.path,
                 display: true,
             }))
 
+            const duration = res.data.duration;
+            const h = minToHAndMin(duration).h;
+            const m = minToHAndMin(duration).min;
+
             setPathDetails((prevState) => ({
                 ...prevState,
-                duration: res.data.duration,
+                durationMin: m,
+                durationH: h,
                 distance: res.data.distance
 
+            }))
+
+            setError((prevState) => ({
+                ...prevState,
+                show: false, 
+                text: "",
+                changeShow: false,
             }))
 
             // setBtnDisabled(false);
 
         })
-        .catch(error => console.log(error))
+        .catch((error) => {
+            console.log(error);
+
+            setError((prevState) => ({
+                ...prevState,
+                text: "Nie można wyznaczyć trasy.",
+                changeShow: true,
+            }))
+
+
+        })
     }
 
 
@@ -299,6 +407,52 @@ const Map = (props) => {
         togglePopup();
     }
 
+    const startMarkerRef = React.useRef(null);
+    const endMarkerRef = React.useRef(null);
+
+    const markerStartDrag = React.useMemo(
+        () => ({
+            dragend() {
+
+                const marker = startMarkerRef.current;
+                console.log(marker.getLatLng());
+                setMarker((prevState) => ({
+                    ...prevState,
+                    start: true,
+                    marker_start: marker.getLatLng(),
+                    marker_start_string: true,
+                }))
+        
+                if (getMarker.marker_end !== null){
+                    togglePost();
+                }
+
+            }
+        })
+    )
+
+    const markerEndDrag = React.useMemo(
+        () => ({
+            dragend() {
+
+                const marker = endMarkerRef.current;
+                console.log(marker.getLatLng());
+                setMarker((prevState) => ({
+                    ...prevState,
+                    end: true,
+                    marker_end: marker.getLatLng(),
+                    marker_end_string: true,
+                }))
+        
+                if (getMarker.marker_start !== null){
+                    togglePost();
+                }
+
+            }
+        })
+    )
+
+
     const SetMarkerStartPanel = (coords) => {
 
         setMarker((prevState) => ({
@@ -349,7 +503,7 @@ const Map = (props) => {
 
                 setCoords((prevState) => ({
                     ...prevState,
-                    coords: coords
+                    coords: coords,
                 }))
                 
 
@@ -388,7 +542,13 @@ const Map = (props) => {
             <ClickHandler />
 
         {getMarker.start ?
-        <Marker position={getMarker.marker_start}>
+        <Marker 
+            position={getMarker.marker_start}
+            draggable={true}
+            eventHandlers={markerStartDrag}
+            ref={startMarkerRef}
+            icon={getGreenIcon}
+                >
             <Popup>
                 <h4>Punkt początkowy</h4>
                 <p>Lat: {getMarker.marker_start.lat}, Lng: {getMarker.marker_start.lng}</p>
@@ -397,7 +557,13 @@ const Map = (props) => {
         : null}
 
         {getMarker.end ?
-        <Marker position={getMarker.marker_end}>
+        <Marker 
+            position={getMarker.marker_end}
+            draggable={true}
+            eventHandlers={markerEndDrag}
+            ref={endMarkerRef}
+            icon={getBlueIcon}
+            >
             <Popup>
                 <h4>Punkt końcowy</h4>
                 <p>Lat: {getMarker.marker_end.lat}, Lng: {getMarker.marker_end.lng}</p>
@@ -426,12 +592,14 @@ const Map = (props) => {
                 user={props.user}
                 btnDisabled={btnDisabled}
                 btnHandler={favBtnOpen.bind(this)}
-                duration={getPathDetails.duration}
+                durationMin={getPathDetails.durationMin}
+                durationH={getPathDetails.durationH}
                 distance={getPathDetails.distance}
-                /> 
+                error={getError}
+        /> 
 
         {getPlot.show ? 
-        <ChartsPanel style={getPanelStyle} plotData={getPlot}></ChartsPanel>
+        <ChartsPanel setStyle={getPanelStyle} plotData={getPlot}></ChartsPanel>
         : null}
 
         {favPopup ? 

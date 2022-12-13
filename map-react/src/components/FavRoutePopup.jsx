@@ -36,12 +36,12 @@ const FavRoutePopup = (props) => {
                 </div>
                 <div className="fav-popup-plot1">
                     
-                    <ChartsScatter data={props.data}/>
+                    <ChartsScatter data={props.data} style={{height: "340"}}/>
 
                 </div>
 
                 <div className="fav-popup-plot2">
-                    <ChartsSurface data={props.data}/>
+                    <ChartsSurface data={props.data} style={{height: "340"}}/>
                 </div>
 
 

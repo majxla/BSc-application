@@ -69,6 +69,10 @@ class Coordinates(APIView):
             # response = requests.get('''https://routing.openstreetmap.de/routed-foot/route/v1/driving/15.7557,50.7748;15.7273,50.7476?overview=false&geometries=geojson&steps=true''')
             response = requests.get(url)
             response = response.json()
+
+            print(url)
+
+            print(response)
             
 
             route = response['routes'][0]['legs'][0]['steps']

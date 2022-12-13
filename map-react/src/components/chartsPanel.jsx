@@ -8,10 +8,11 @@ function ChartsPanel (props) {
 
     return (
 
-        <div className='charts-panel'>
+        <div className='charts-panel' style={props.setStyle}>
+            
+            <ChartsScatter data={props.plotData} style={{height: "100%"}}></ChartsScatter>
 
-            <ChartsScatter data={props.plotData}></ChartsScatter>
-            <ChartsSurface data={props.plotData}></ChartsSurface>
+            <ChartsSurface data={props.plotData} style={{height: "100%"}}></ChartsSurface>
 
         </div>
     )

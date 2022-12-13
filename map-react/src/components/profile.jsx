@@ -28,9 +28,10 @@ const Profile = (props) => {
 
     const [toFetch, setToFetch] = useState(false);
     const [data, setData] = useState(null);
+    const [empty, setEmpty] = useState(true);
     // const [loading, setLoading] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(false);
 
 
     const [userID, setUserID] = useState(null);
@@ -53,6 +54,16 @@ const Profile = (props) => {
                 console.log(res.data);
                 setData(res.data);
                 setLoading(false);
+
+                if (res.data.routes.length === 0) {
+                    setEmpty(true);
+                } else {
+                    setEmpty(false);
+                }
+
+                console.log(res.data.routes.length);
+                console.log(empty);
+
             },
             error => {
                 console.error("Error fetching data: ", error);
@@ -62,8 +73,39 @@ const Profile = (props) => {
     }, [toFetch]);
 
     // UNCOMMENT
-    if (loading) return "Loading...";
-    if (error) return "Error";
+    if (loading) return (
+        <div className='profile-loading'>
+            <p>Ładowanie danych...</p>
+
+            <div className='logout-button-div'>
+                <button className='logout-button' onClick={props.logout}>Wyloguj</button>
+            </div>
+
+        </div>
+    )
+
+    if (empty) return (
+        <div>
+            <div className='profile-routes'>
+                <h1>Twoje zapisane trasy</h1>  
+                <p> Brak tras</p>
+
+            </div>
+
+        </div>
+    )
+
+
+    if (error) return (        
+        <div className='profile-loading'>
+            <p>Wystąpił błąd.</p>
+
+            <div className='logout-button-div'>
+                <button className='logout-button' onClick={props.logout}>Wyloguj</button>
+            </div>
+
+        </div>
+    )
 
 
     const elements = data['routes'].map(route => {
@@ -83,11 +125,12 @@ const Profile = (props) => {
             {/* UNCOMMENT */}
             <div className='profile-routes'>
                 <h1>Twoje zapisane trasy</h1>
-                {elements}
 
+                    {elements}
+                    
             </div>
 
-            {/* UNCOMMENT */}
+            
             {favPopup ? 
             <FavRoutePopup
                 popupClose={favPopupClose.bind(this)}
@@ -99,7 +142,7 @@ const Profile = (props) => {
             : null}
 
             <div className='logout-button-div'>
-                <button className='logout-button'>Wyloguj</button>
+                <button className='logout-button' onClick={props.logout}>Wyloguj</button>
             </div>
 
         </div>

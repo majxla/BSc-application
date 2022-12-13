@@ -37,8 +37,11 @@ const NavBar = (props) => {
         return (
 
             <nav className="navWrapper">
-                <Link to="/" className="navButton"> Mapa </Link>
-                <Link to="/user" className="navButton"> {JSON.parse(user)['username']} </Link>
+                <h1 className="app-title">Planowanie wycieczek górskich</h1>
+                <div>
+                    <Link to="/" className="navButton"> Mapa </Link>
+                    <Link to="/user" className="navButton" style={{borderRight: "none"}}> {JSON.parse(user)['username']} </Link>
+                </div>
             </nav>
 
         )   
@@ -47,8 +50,12 @@ const NavBar = (props) => {
         return (
 
             <nav className="navWrapper">
-                <Link to="/" className="navButton"> Mapa </Link>
-                <Link to="/user" className="navButton"> Moje konto </Link>
+                <h1 className="app-title">Planowanie wycieczek górskich</h1>
+
+                <div>
+                    <Link to="/" className="navButton"> Mapa </Link>
+                    <Link to="/user" className="navButton" style={{borderRight: "none"}}> Moje konto </Link>
+                </div>
             </nav>
 
         )
