@@ -55,10 +55,16 @@ const FavPopup = (props) => {
 
             console.log(JSON.stringify(response));
 
+            props.close()
+            props.setErrorFalse();
+
 
         } catch (err) {
             
             console.log(err);
+            props.close()
+            props.setErrorTrue("Nie udało się zapisać trasy");
+            
         }
 
     }

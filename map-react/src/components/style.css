@@ -505,6 +505,10 @@ header {
 
 }
 
+.fav-route-delete button{
+    align-self: right;
+}
+
 
 .profile {
     background-color: white;

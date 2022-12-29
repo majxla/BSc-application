@@ -231,6 +231,22 @@ class FavRouteView(APIView):
         return Response({
             'success': 'success'
         })
+    
+    def delete(self, request, id):
+
+        # route = self.serializer_class(FavRoute.objects.get(id=id))
+        # print(route)
+        # route.delete()
+
+        route = FavRoute.objects.get(id=id)
+        route.delete()
+
+
+        return Response({
+            'success': 'success'
+        })
+
+        
 
 
 # polyline = [

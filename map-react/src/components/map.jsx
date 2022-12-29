@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents, Polyline} from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents, Polyline, useMap} from 'react-leaflet';
 import * as L from 'leaflet';
 import Axios from 'axios';
 import "./style.css";
@@ -39,7 +39,7 @@ const Map = (props) => {
     const [getGreenIcon, setGreenIcon] = React.useState(greenIcon);
 
     
-    const blueIcon = new LeafIcon({
+    const redIcon = new LeafIcon({
         iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
         iconSize: [25, 41],
@@ -48,7 +48,7 @@ const Map = (props) => {
         shadowSize: [41, 41]
     });
 
-    const [getBlueIcon, setBlueIcon] = React.useState(blueIcon);
+    const [getRedIcon, setBlueIcon] = React.useState(redIcon);
 
 
     // popup positioning
@@ -64,6 +64,9 @@ const Map = (props) => {
 
         const x = e.clientX;
         const y = e.clientY;
+
+        console.log(x);
+        console.log(y);
 
         setCoords((prevState) => ({
             ...prevState,
@@ -81,6 +84,34 @@ const Map = (props) => {
 
     const [getError, setError] = React.useState(error);
 
+    const setErrorTrue = (message) => {
+
+        setError((prevState) => ({
+            ...prevState,
+            text: message,
+            changeShow: true,
+        }))
+
+        setTimeout(() => {
+            setError((prevState) => ({
+                ...prevState,
+                show: false, 
+                text: "",
+                changeShow: false,
+            }))
+        }, 3000)
+    }
+
+    const setErrorFalse = () => {
+
+        setError((prevState) => ({
+            ...prevState,
+            show: false, 
+            text: "",
+            changeShow: false,
+        }))
+    }
+
     React.useEffect(() => {
         if (getError.changeShow) {
 
@@ -89,8 +120,6 @@ const Map = (props) => {
                 show: true,
             }))
         }
-
-        
 
     }, [getError.text])
 
@@ -121,7 +150,7 @@ const Map = (props) => {
 
     const [getMarker, setMarker] = React.useState(markers);
 
-    const purple = {color: 'purple'}
+    const pathColor = {color: 'black'}
     const path = {
         display: false,
         showPath: false,
@@ -210,21 +239,18 @@ const Map = (props) => {
                 display: true
             }))
 
-            setError((prevState) => ({
-                ...prevState,
-                show: false, 
-                text: "",
-                changeShow: false,
-            }))
+            // setError((prevState) => ({
+            //     ...prevState,
+            //     show: false, 
+            //     text: "",
+            //     changeShow: false,
+            // }))
+            setErrorFalse();
         })
         .catch((error) => {
             console.log(error);
 
-            setError((prevState) => ({
-                ...prevState,
-                text: "Nie można wygenerować wykresów.",
-                changeShow: true,
-            }))
+            setErrorTrue("Nie można wygenerować wykresów.");
         })
     }
 
@@ -261,11 +287,19 @@ const Map = (props) => {
         }))
     }
 
+    const inputChangeToCoordsStart = (coords) => {
+        inputStartChangeHandler(coords);
+    }
+
     const inputEndChangeHandler = (value) => {
         setInput((prevState) => ({
             ...prevState,
             end: value,
         }))
+    }
+
+    const inputChangeToCoordsEnd = (coords) => {
+        inputEndChangeHandler(coords);
     }
 
     const pathDetails = {
@@ -315,12 +349,14 @@ const Map = (props) => {
 
             }))
 
-            setError((prevState) => ({
-                ...prevState,
-                show: false, 
-                text: "",
-                changeShow: false,
-            }))
+            // setError((prevState) => ({
+            //     ...prevState,
+            //     show: false, 
+            //     text: "",
+            //     changeShow: false,
+            // }))
+
+            setErrorFalse();
 
             // setBtnDisabled(false);
 
@@ -328,11 +364,7 @@ const Map = (props) => {
         .catch((error) => {
             console.log(error);
 
-            setError((prevState) => ({
-                ...prevState,
-                text: "Nie można wyznaczyć trasy.",
-                changeShow: true,
-            }))
+            setErrorTrue("Nie można wyznaczyć trasy.");
 
 
         })
@@ -482,6 +514,39 @@ const Map = (props) => {
 
     }
 
+    // const ResetMarkerStartPanel = () => {
+    //     setMarker((prevState) => ({
+    //         ...prevState,
+    //         start: false, 
+    //         marker_start: null,
+    //         marker_start_string: false,
+    //     }))
+    // }
+
+    const centerMap = {
+        center: [50.775656, 15.758092]
+    }
+
+    const [getCenterMap, setCenterMap] = React.useState(centerMap);
+
+    const SetMapCenter = (coords) => {
+
+        console.log(coords);
+        setCenterMap((prevState) => ({
+            ...prevState,
+            center: coords,
+        }))
+        console.log(getCenterMap);
+
+    }
+
+    const ChangeMapCenter = () => {
+
+        const map = useMap();
+        map.setView(getCenterMap.center);
+
+    }
+
     
 
     // Clicking map => Popup
@@ -498,9 +563,6 @@ const Map = (props) => {
                 lng = e.latlng.lng;
                 coords = e.latlng;
 
-                console.log(lat)
-                console.log(lng)
-
                 setCoords((prevState) => ({
                     ...prevState,
                     coords: coords,
@@ -509,6 +571,19 @@ const Map = (props) => {
 
                 togglePopup();
 
+            },
+            contextmenu: (e) => {
+                lat = e.latlng.lat;
+                lng = e.latlng.lng;
+                coords = e.latlng;
+
+                setCoords((prevState) => ({
+                    ...prevState,
+                    coords: coords,
+                }))
+                
+
+                togglePopup();
             }
         })
     }
@@ -528,10 +603,10 @@ const Map = (props) => {
 
 
     return (
-        <div className="map-view" style={getMapStyle} onClick={onMouseClick.bind(this)}>
+        <div className="map-view" style={getMapStyle} onClick={onMouseClick.bind(this)} onContextMenu={onMouseClick.bind(this)}>
 
         <MapContainer className='map-only'
-        center={[50.775656, 15.758092]} 
+        center={getCenterMap.center} 
         zoom={13} 
         scrollWheelZoom={true}
         >
@@ -540,6 +615,7 @@ const Map = (props) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
 
             <ClickHandler />
+            <ChangeMapCenter/>
 
         {getMarker.start ?
         <Marker 
@@ -562,7 +638,7 @@ const Map = (props) => {
             draggable={true}
             eventHandlers={markerEndDrag}
             ref={endMarkerRef}
-            icon={getBlueIcon}
+            icon={getRedIcon}
             >
             <Popup>
                 <h4>Punkt końcowy</h4>
@@ -572,7 +648,7 @@ const Map = (props) => {
         : null}
 
         {getPath.showPath ? 
-            <Polyline pathOptions={purple} positions={getPath.polyline}/>
+            <Polyline pathOptions={pathColor} positions={getPath.polyline}/>
         : null}
         {/* <Polyline pathOptions={purple} positions={polyline}/> */}
 
@@ -596,6 +672,11 @@ const Map = (props) => {
                 durationH={getPathDetails.durationH}
                 distance={getPathDetails.distance}
                 error={getError}
+                setErrorTrue={setErrorTrue.bind(this)}
+                setErrorFalse={setErrorFalse.bind(this)}
+                changeCenter={SetMapCenter.bind(this)}
+                startToCoords={inputChangeToCoordsStart.bind(this)}
+                endToCoords={inputChangeToCoordsEnd.bind(this)}
         /> 
 
         {getPlot.show ? 
@@ -612,7 +693,9 @@ const Map = (props) => {
             xaxis={getPlot.xaxis}
             surface={getPlot.surface}
             rows={getPlot.rows}
-            cols={getPlot.cols}/>
+            cols={getPlot.cols}
+            setErrorTrue={setErrorTrue.bind(this)}
+            setErrorFalse={setErrorFalse.bind(this)}/>
         : null}
 
         </div>

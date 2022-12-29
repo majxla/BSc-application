@@ -68,9 +68,17 @@ function Panel(props) {
 
         xhr.addEventListener('load', function(){
 
+            console.log(xhr.response)
+            console.log(xhr.response[0])
+
+
             if (xhr.response[0] === undefined){
                 console.log("Nie znaleziono.")
+                props.setErrorTrue("Nie znaleziono miejsca");
+
             }else {
+                props.setErrorFalse();
+            
                 let lat = xhr.response[0].lat;
                 let lng = xhr.response[0].lon;
 
@@ -82,6 +90,9 @@ function Panel(props) {
                         start: new LatLng(lat, lng),
                         start_effect: true,
                     }))
+
+                    props.changeCenter([lat, lng]);
+                    props.startToCoords([lat, lng]);
                 } else {
                     // console.log(`End: ${value} ${lat}, ${lng}`)
                     // console.log(`End: ${xhr.response[0].lat}, ${xhr.response[0].lon}`)
@@ -90,6 +101,8 @@ function Panel(props) {
                         end: new LatLng(lat, lng),
                         end_effect: true,
                     }))
+                    props.changeCenter([lat, lng]);
+                    props.endToCoords([lat, lng]);
                 }
 
             }
