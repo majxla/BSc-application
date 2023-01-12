@@ -193,6 +193,16 @@ const Map = (props) => {
 
     const [getPlot, setPlot] = React.useState(plot);
 
+    const [scrollButton, setScrollButton] = React.useState(false);
+
+    const chartsRef = React.useRef(null);
+
+    const scrollToCharts = () => {
+        chartsRef.current.scrollIntoView({behavior: "smooth"});
+    }
+
+    const [loadingCircle, setLoadingCricle] = React.useState(false);
+
 
     useEffect(() => {
         if (getPlot.display){
@@ -205,8 +215,22 @@ const Map = (props) => {
                 gridTemplateRows: '2fr 1.5fr',
             }))
             setBtnDisabled(false);
+            setScrollButton(true);
+            setLoadingCricle(false);
         }
     }, [getPlot.altitude, getPlot.xaxis])
+
+    useEffect(() => {
+
+        if (getPlot.display) {
+            if (!getPlot.show) {
+                setMapStyle((prevState) => ({
+                    ...prevState,
+                    gridTemplateRows: '2fr',
+                })) 
+            }
+        }
+    }, [getPlot.show])
 
     
 
@@ -251,6 +275,13 @@ const Map = (props) => {
             console.log(error);
 
             setErrorTrue("Nie można wygenerować wykresów.");
+            setLoadingCricle(false);
+            setScrollButton(false);
+            setBtnDisabled(true);
+            setPlot((prevState) => ({
+                ...prevState,
+                show: false
+            }));
         })
     }
 
@@ -269,6 +300,8 @@ const Map = (props) => {
             console.log(getPath.polyline)
             togglePath();
             getPlotData();
+            setScrollButton(false);
+            setLoadingCricle(true);
         }
     }, [getPath.polyline])
 
@@ -365,6 +398,7 @@ const Map = (props) => {
             console.log(error);
 
             setErrorTrue("Nie można wyznaczyć trasy.");
+            setBtnDisabled(true);
 
 
         })
@@ -524,7 +558,8 @@ const Map = (props) => {
     // }
 
     const centerMap = {
-        center: [50.775656, 15.758092]
+        center: [50.775656, 15.758092],
+        effect: false,
     }
 
     const [getCenterMap, setCenterMap] = React.useState(centerMap);
@@ -535,19 +570,25 @@ const Map = (props) => {
         setCenterMap((prevState) => ({
             ...prevState,
             center: coords,
+            effect: true
         }))
         console.log(getCenterMap);
-
     }
 
     const ChangeMapCenter = () => {
 
         const map = useMap();
-        map.setView(getCenterMap.center);
+        React.useEffect(() => {
+            if (getCenterMap.effect) {
+                map.setView(getCenterMap.center);
 
+                setCenterMap((prevState) => ({
+                    ...prevState,
+                    effect: false
+                }))
+            }
+        }, [getCenterMap.center])
     }
-
-    
 
     // Clicking map => Popup
     const ClickHandler = () => {
@@ -677,11 +718,16 @@ const Map = (props) => {
                 changeCenter={SetMapCenter.bind(this)}
                 startToCoords={inputChangeToCoordsStart.bind(this)}
                 endToCoords={inputChangeToCoordsEnd.bind(this)}
+                scrollButton={scrollButton}
+                scrollToCharts={scrollToCharts.bind(this)}
+                loading={loadingCircle}
         /> 
 
         {getPlot.show ? 
-        <ChartsPanel setStyle={getPanelStyle} plotData={getPlot}></ChartsPanel>
+        <ChartsPanel setStyle={getPanelStyle} plotData={getPlot} chartsref={chartsRef}></ChartsPanel>
         : null}
+
+
 
         {favPopup ? 
         <FavPopup 

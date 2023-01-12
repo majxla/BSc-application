@@ -19,7 +19,21 @@ function Panel(props) {
 
     const [getCoords, setCoords] = React.useState(coords1);
 
-    const [btnDisabled, setBtnDisabled] = React.useState(true);
+    const [isHover, setIsHover] = React.useState(false);
+
+    const handleMouseEnter = () => {
+        console.log("weszło")
+        setIsHover(true);
+    }
+
+    const handleMouseLeave = () => {
+        console.log("wyszło")
+        setIsHover(false);
+    }
+
+    const btnDisabledS = {
+        border: isHover ? "1px solid green" : "1px solid black",
+    }
 
 
 
@@ -162,16 +176,36 @@ function Panel(props) {
             </div>
 
                 {props.user ? 
-                <div className='btn-fav-containter'>
+                <div className='btn-fav-containter'
+                    
+                >
                     <button 
                         className="btn-fav" 
                         type='button' 
                         disabled={props.btnDisabled ? true : false}
+                        style={btnDisabledS}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
                         onClick={props.btnHandler}>Dodaj trasę do ulubionych</button>
                 </div>
                 :
                 null
                 }
+
+                {props.scrollButton ? 
+                <div className='arrow-container'>
+                    <button className='arrow' onClick={props.scrollToCharts}></button>
+                </div>
+                :
+                null
+                }
+                
+                {props.loading ?
+                <div className='loading'>
+                    <div></div><div></div><div></div><div></div>
+                </div>
+                :
+                null}
                 
             
 

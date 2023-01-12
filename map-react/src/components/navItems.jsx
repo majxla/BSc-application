@@ -41,6 +41,7 @@ const NavBar = (props) => {
                 <div>
                     <Link to="/" className="navButton"> Mapa </Link>
                     <Link to="/user" className="navButton" style={{borderRight: "none"}}> {JSON.parse(user)['username']} </Link>
+                    {/* <Link to="/user" className="navButton" style={{borderRight: "none"}}> user </Link> */}
                 </div>
             </nav>
 

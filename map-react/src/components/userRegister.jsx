@@ -32,6 +32,7 @@ const UserRegister = (props) => {
                 setSuccess(true);
 
                 setEmail("");
+                setUsername("");
                 setPassword("");
 
             }
@@ -45,8 +46,14 @@ const UserRegister = (props) => {
             } else if (err.response?.status === 401) {
                 console.log('Brak autoryzacji.');
             } else {
-                console.log('Dupa.');
+                console.log('Coś nie działa lecz nie wiadomo co.');
             }
+
+            props.setUErrorTrue("Nieudana rejestracja.");
+            
+            setEmail("");
+            setUsername("");
+            setPassword("");
 
         }
     }

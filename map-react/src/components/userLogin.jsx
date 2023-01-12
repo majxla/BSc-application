@@ -63,8 +63,12 @@ const UserLogin = (props) => {
             } else if (err.response?.status === 401) {
                 console.log('Brak autoryzacji.');
             } else {
-                console.log('Dupa.');
+                console.log('Coś nie działa lecz nie wiadomo co.');
             }
+
+            props.setUErrorTrue("Nieudane logowanie.");
+            setEmail("");
+            setPassword("");
 
         }
 
@@ -74,11 +78,12 @@ const UserLogin = (props) => {
 
         <div>
                 <section>
+                    
                     <form onSubmit={handleSubmit}>
 
-                        <label>Nazwa użytkownika:</label>
+                        <label>Adres email:</label>
                         <input 
-                            type="text"
+                            type="email"
                             id="username"
                             ref={userRef}
                             autoComplete='off'

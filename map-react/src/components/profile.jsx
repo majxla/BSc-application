@@ -91,7 +91,6 @@ const Profile = (props) => {
                 <p> Brak tras</p>
 
             </div>
-
         </div>
     )
 
@@ -114,9 +113,6 @@ const Profile = (props) => {
                 popupOpen={favPopupOpen.bind(this)}
                 ></RouteItem>
     })
-
-
-
 
     return (
 
