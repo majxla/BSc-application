@@ -51,17 +51,17 @@ class Coordinates(APIView):
         result_start = request.GET.get('startCoords', None)
         result_end = request.GET.get('endCoords', None)
 
-        print(result_start, result_end)
+        #print(result_start, result_end)
         #'{"lat":50.77422170102437,"lng":15.754909515380861}' '{"lat":50.74674062590121,"lng":15.73122024536133}'
 
         if (result_start != None and result_end != None):
             start_coords = self.coordsformatting(result_start)
             end_coords = self.coordsformatting(result_end)
 
-            print(start_coords, end_coords)
+            #print(start_coords, end_coords)
             url = "https://routing.openstreetmap.de/routed-foot/route/v1/driving/" + start_coords[1] + "," + start_coords[0] + ";" + end_coords[1] + "," + end_coords[0] +"?overview=false&geometries=geojson&steps=true"
 
-            #print(url)
+            print(url)
         
         
             # response = requests.get('''https://routing.openstreetmap.de/routed-foot/route/v1/driving/15.7557,50.7748;15.7273,50.7476?overview=false&geometries=polyline&steps=true''')
@@ -70,9 +70,9 @@ class Coordinates(APIView):
             response = requests.get(url)
             response = response.json()
 
-            print(url)
+            # print(url)
 
-            print(response)
+            # print(response)
             
 
             route = response['routes'][0]['legs'][0]['steps']
