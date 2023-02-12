@@ -91,11 +91,11 @@ DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.postgresql',
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'TripsDB',
-        'USER': 'postgres',
-        'PASSWORD': 'postgrespassword',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': '*****',
+        'USER': '*****',
+        'PASSWORD': '*****',
+        'HOST': '*****',
+        'PORT': '*****',
     }
 }
 
@@ -167,9 +167,9 @@ REST_FRAMEWORK = {
 # print(os.environ)
 # GDAL_LIBRARY_PATH = VIRTUAL_ENV_BASE + "/Lib/site-packages/osgeo/gdal304"
 
-GDAL_LIBRARY_PATH = """D:\\geoinformatyka\\SEMESTRVI\\seminarium_inzynierskie\\aplikacja\\env\\Lib\\site-packages\\osgeo\\gdal304"""
+GDAL_LIBRARY_PATH = """ """
 
-GEOS_LIBRARY_PATH = """D:\\geoinformatyka\\SEMESTRVI\\seminarium_inzynierskie\\aplikacja\\env\\Lib\\site-packages\\osgeo\\geos_c"""
+GEOS_LIBRARY_PATH = """ """
 
 # if os.name == 'nt':
 #     VENV_BASE = os.environ['VIRTUAL_ENV']
